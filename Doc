@@ -1,0 +1,12 @@
+The API that you stated in the document doesn't support the Egyptian currency 
+Picking the first result from google isn't the best way, even if you don't spend a minute to check the supported currencies
+
+So I used another API 
+https://free.currencyconverterapi.com/api/v5/
+
+
+
+pip install mongo
+# for install mongo
+
+pip install mongoengine
