@@ -37,22 +37,24 @@ def get_records_from_db():
     # this line supposed to make a collection called currency
     currency_collection = db.currency
     all_doc = currency_collection.find({})
+    print 'from|', ' to', ' | ', 'price'
+    print '-----------------------------'
     for doc in all_doc:
-        print doc['from'], doc['to'], doc['price']
+        print doc['from'],'| ', doc['to'], '| ', doc['price']
 
 
 
 
 # errors and command messages
-WELCOME = "Welcome to the currency converter app"
-HELP = "The currency code consists of 3 CAPITAL letters"
+WELCOME = "Welcome to the currency converter app" +" | enter the currency code to get it converted into EGP"+ " | enter get_records to get the past saved conversions"
+HELP = "The currency code consists of 3 CAPITAL letters OR you can enter <get_records> for getting past conversions"
 URL = ""
 
 # create a parser object
 parser = argparse.ArgumentParser(description = WELCOME )
 
 # add_argument
-parser.add_argument("code", nargs = 1, metavar = "Currency_code",
+parser.add_argument("code", nargs = 1, metavar = "argument 1",
                      help = HELP)
 
 
@@ -62,8 +64,14 @@ args = parser.parse_args()
 # check if the argument more than 3 letters
 # as any currency code consists of 3 letters only
 if len(args.code[0]) != 3:
-    print HELP
-    exit()
+    # check if the arguments = get_records
+    if args.code[0] == "get_records":
+        # calling get_records_from_db to get all saved doc in db
+        get_records_from_db()
+        exit()
+    else:
+        print HELP
+        exit()
 
 # add _EGP part to the entered currency code to convert it into EGP
 currency_code = args.code[0] + "_EGP"
@@ -86,6 +94,5 @@ currency_code = currency_code.upper()
 if data:
     print "today's %s price is"%args.code[0] , data[currency_code]['val']
     affecting_db(args.code[0].upper(), 'EGP',data[currency_code]['val'])
-    get_records_from_db()
 else:
     print "The currency code you entered is invalid"
