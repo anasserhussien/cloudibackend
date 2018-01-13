@@ -8,6 +8,41 @@ from pymongo import MongoClient
 #import pymongo
 #from pymongo import MongoClient
 
+# this method for inserting the currency val into DB
+def affecting_db(from_currency, to_currency, price):
+
+    client = MongoClient()
+    # this gonna make currency_db if it doesn't exist
+    db = client['currency_db']
+
+    # this line supposed to make a collection called currency
+    currency_collection = db.currency
+
+    # this is the json that should be saved into the database as a document
+    currency = {
+    'from':from_currency,
+    'to':to_currency,
+    'price':price,
+    }
+
+    # this line should insert the currency into db and get back with obj id
+    currency_collection.insert_one(currency)
+
+def get_records_from_db():
+
+    client = MongoClient()
+    # this gonna make currency_db if it doesn't exist
+    db = client['currency_db']
+
+    # this line supposed to make a collection called currency
+    currency_collection = db.currency
+    all_doc = currency_collection.find({})
+    for doc in all_doc:
+        print doc['from'], doc['to'], doc['price']
+
+
+
+
 # errors and command messages
 WELCOME = "Welcome to the currency converter app"
 HELP = "The currency code consists of 3 CAPITAL letters"
@@ -51,26 +86,6 @@ currency_code = currency_code.upper()
 if data:
     print "today's %s price is"%args.code[0] , data[currency_code]['val']
     affecting_db(args.code[0].upper(), 'EGP',data[currency_code]['val'])
+    get_records_from_db()
 else:
     print "The currency code you entered is invalid"
-
-
-# this method for inserting the currency val into DB
-def affecting_db():
-
-    client = MongoClient(from_currency, to_currency, price)
-    # this gonna make currency_db if it doesn't exist
-    db = client['currency_db']
-
-    # this line supposed to make a collection called currency
-    currency_collection = db.currency
-
-    # this is the json that should be saved into the database as a document
-    currency = {
-    'from':from_currency,
-    'to':to_currency,
-    'price':price,
-    }
-
-    # this line should insert the currency into db and get back with obj id
-    currency_collection.insert_one(currency)
