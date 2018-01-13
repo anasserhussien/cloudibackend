@@ -79,6 +79,7 @@ currency_code = args.code[0] + "_EGP"
 URL = "http://free.currencyconverterapi.com/api/v5/convert?q="+currency_code +"&compact=y&comabct=y"
 
 # read  the json and load into data or show internet connection problem
+data = ""
 try:
     response = urllib.urlopen(URL)
     data = json.loads(response.read())
