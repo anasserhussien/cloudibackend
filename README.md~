@@ -18,12 +18,6 @@ pip install pymongo
 
 After installing the prerequisites open the terminal and cd into the directory that contains the script
 
-#### Get help of how this script running and what's the required argument
-
-```
-$ python script.py -h
-```
-
 
 #### Getting the EUR today's price, you can use any currency you want instead of EUR
 
